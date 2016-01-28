@@ -8,16 +8,30 @@
 #pragma comment(lib, "Ws2_32.lib")
 
 #define DEFAULT_BUFLEN 512
-#include "CreateGroup.h"
+#include "GroupManger.h"
+#include "PersonManger.h"
+
 int __cdecl main() {
 
 	//----------------------
 	// Declare and initialize variables.
-	
+	//----------------------
+	// Initialize Winsock
+	int iResult = 0;
+	WSADATA wsaData;
+	iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
+	if (iResult != NO_ERROR) {
+		printf("WSAStartup failed: %d\n", iResult);
+		return 1;
+	}
 
-	CCreateGroup create;
-	create._sendRequest("");
-	create._recvRequest("");
+	CGroupManger create("Test1");
+	create._createGroup();
+	system("pause");
+	CPersonManger person("test1", "Test1");
+	person._createPerson();
+	system("pause");
+	person._deletePerson();
 	//char *sendbuf = "GET / HTTP/1.1\r\nAccept:*/*\r\nHost:astmakerspace.org.cn\r\nConnection:Close\r\n\r\n";
 	//char recvbuf[DEFAULT_BUFLEN];
 	//int recvbuflen = DEFAULT_BUFLEN;
@@ -93,7 +107,12 @@ int __cdecl main() {
 	//} while (iResult > 0);
 
 	//// cleanup
-	
 
+	system("pause");
+	create._deleteGroup();
+
+
+	WSACleanup();
+	system("pause");
 	return 0;
 }

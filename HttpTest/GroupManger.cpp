@@ -1,18 +1,29 @@
-#include "CreateGroup.h"
-std::string HTTPPATH = "www.baidu.com";
-int CCreateGroup::_sendRequest(char * request)
+#include "GroupManger.h"
+
+std::string CreateRequest = "/v2/group/create?api_key=c499b2943a96babe258e8d4ed8098061&api_secret=hHbxdSmNwgvCwWURtjweTRyGR5V_TmWH&tag=created_by_Alice&group_name=";
+std::string DeleteRequest = "/v2/group/delete?api_key=c499b2943a96babe258e8d4ed8098061&api_secret=hHbxdSmNwgvCwWURtjweTRyGR5V_TmWH&tag=created_by_Alice&group_name=";
+
+int CGroupManger::_createGroup(){
+
+	return _sendRequest(CreateRequest.c_str());
+}
+int CGroupManger::_deleteGroup(){
+
+	return _sendRequest(DeleteRequest.c_str());
+}
+
+int CGroupManger::_sendRequest(const char * request)
 {
-	WSADATA wsaData;
 	int iResult = 0;
-	//----------------------
-	// Initialize Winsock
-	iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
-	if (iResult != NO_ERROR) {
-		printf("WSAStartup failed: %d\n", iResult);
-		return 1;
-	}
-	char *sendbuf = "GET / HTTP/1.1\r\nAccept:*/*\r\nHost:www.baidu.com\r\nConnection:Close\r\n\r\n";
-	
+	//char *sendbuf = "GET / HTTP/1.1\r\nAccept:*/*\r\nHost:apicn.faceplusplus.com/v2/group/create?api_key=c499b2943a96babe258e8d4ed8098061&api_secret=hHbxdSmNwgvCwWURtjweTRyGR5V_TmWH&tag=created_by_Alice&group_name=AST_Family\r\nConnection:Close\r\n\r\n";
+	//char *sendbuf = "GET /v2/group/create?api_key=c499b2943a96babe258e8d4ed8098061&api_secret=hHbxdSmNwgvCwWURtjweTRyGR5V_TmWH&tag=created_by_Alice&group_name=AST_Family HTTP/1.1\r\nAccept:*/*\r\nHost:apicn.faceplusplus.com\r\nConnection:Close\r\n\r\n";
+	//char *sendbuf = "GET / HTTP/1.1\r\nAccept:*/*\r\nHost:www.baidu.com\r\nConnection:Close\r\n\r\n";
+	std::string sSendBuf = "GET ";
+	sSendBuf += request;
+	sSendBuf += m_groupName;
+	sSendBuf += " HTTP/1.1\r\nAccept:*/*\r\nHost:";
+	sSendBuf += HostPath;
+	sSendBuf += "\r\nConnection:Close\r\n\r\n";
 
 	//----------------------
 	// Create a SOCKET for connecting to server
@@ -23,7 +34,7 @@ int CCreateGroup::_sendRequest(char * request)
 		return 1;
 	}
 
-	hostent *ht = gethostbyname("www.baidu.com");
+	hostent *ht = gethostbyname(HostPath);
 	char str[MAX_PATH];
 	inet_ntop(ht->h_addrtype, ht->h_addr, str, sizeof(str));
 
@@ -46,7 +57,9 @@ int CCreateGroup::_sendRequest(char * request)
 	}
 
 	// Send an initial buffer
-	iResult = send(m_socket, sendbuf, (int)strlen(sendbuf), 0);
+	iResult = send(m_socket, sSendBuf.c_str(), sSendBuf.length(), 0);
+	//iResult = send(m_socket, sendbuf, strlen(sendbuf), 0);
+
 	if (iResult == SOCKET_ERROR) {
 		printf("send failed: %d\n", WSAGetLastError());
 		closesocket(m_socket);
@@ -55,7 +68,7 @@ int CCreateGroup::_sendRequest(char * request)
 	}
 
 	printf("Bytes Sent: %ld\n", iResult);
-
+	Sleep(500);
 	// shutdown the connection since no more data will be sent
 	iResult = shutdown(m_socket, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
@@ -65,16 +78,20 @@ int CCreateGroup::_sendRequest(char * request)
 		return 1;
 	}
 
+	_recvRequest("");
 	return 0;
 }
 
-#include <fstream>
-int CCreateGroup::_recvRequest(char * buffer)
+int CGroupManger::_recvRequest(const char * buffer)
 {
 	int iResult = 0;
+	
+
 	char recvbuf[DEFAULT_BUFLEN];
 	int recvbuflen = DEFAULT_BUFLEN;
 	std::fstream out("test.html");
+
+	//system("pause");
 	// Receive until the peer closes the connection
 	std::string message;
 	do {
@@ -94,10 +111,9 @@ int CCreateGroup::_recvRequest(char * buffer)
 	} while (iResult > 0);
 
 	message.find("\r\n\r\n");
-	message.erase(0, message.find("\r\n\r\n") + 1);
+	message.erase(0, message.find("\r\n\r\n") + strlen("\r\n\r\n"));
 	out << message.c_str();
 
 	closesocket(m_socket);
-	WSACleanup();
 	return 0;
 }

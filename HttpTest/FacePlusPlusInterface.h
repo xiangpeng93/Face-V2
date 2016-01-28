@@ -3,25 +3,19 @@
 #include <Ws2tcpip.h>
 #include <stdio.h>
 #include <string>
+#include <fstream>
 // Link with ws2_32.lib
 #pragma comment(lib, "Ws2_32.lib")
 #define DEFAULT_BUFLEN 512
+
+#define HostPath  "apicn.faceplusplus.com"
+
 class CFacePlusPlusInterface
 {
 public:
-	CFacePlusPlusInterface()
-	{
-		/*SOCKET socket, std::string apiKey, std::string secretKey
-		m_socket = socket;
-		m_apiKey = apiKey;
-	    m_secretyKey = secretKey;*/
-	};
-	~CFacePlusPlusInterface()
-	{
-	};
 public:
-	virtual int _sendRequest(char * request) = 0;
-	virtual int _recvRequest(char * buffer) = 0;
+	virtual int _sendRequest(const char * request) = 0;
+	virtual int _recvRequest(const char * buffer) = 0;
 public:
 	std::string m_apiKey;
 	std::string m_secretyKey;

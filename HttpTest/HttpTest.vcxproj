@@ -65,13 +65,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CreateGroup.cpp" />
+    <ClCompile Include="DetectFace.cpp" />
+    <ClCompile Include="GroupManger.cpp" />
     <ClCompile Include="FacePlusPlusInterface.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PersonManger.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CreateGroup.h" />
+    <ClInclude Include="DetectFace.h" />
+    <ClInclude Include="GroupManger.h" />
     <ClInclude Include="FacePlusPlusInterface.h" />
+    <ClInclude Include="PersonManger.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
