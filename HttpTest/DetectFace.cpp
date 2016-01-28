@@ -1,4 +1,9 @@
 #include "DetectFace.h"
+
+#include <json/json.h>
+#include <algorithm> // sort
+#include <sstream>
+#include <stdio.h>
 /*Detect Face*/
 //http ://apicn.faceplusplus.com/v2/detection/detect?api_key=c499b2943a96babe258e8d4ed8098061&api_secret=hHbxdSmNwgvCwWURtjweTRyGR5V_TmWH&url=http://img5.duitang.com/uploads/item/201501/13/20150113131306_XUzEV.thumb.700_0.jpeg&attribute=glass,pose,gender,age,race,smiling&async=false
 
@@ -81,10 +86,11 @@
 }
 */
 
-std::string DetectFaceRequest = "";
-CDetectFace::CDetectFace()
-{
+std::string DetectFaceRequest = "/v2/detection/detect?api_key=c499b2943a96babe258e8d4ed8098061&api_secret=hHbxdSmNwgvCwWURtjweTRyGR5V_TmWH&url=";
 
+CDetectFace::CDetectFace(std::string detectUrl)
+{
+	m_detectUrl = detectUrl;
 }
 
 
@@ -95,7 +101,7 @@ CDetectFace::~CDetectFace()
 
 int CDetectFace::_detectFace()
 {
-
+	return _sendRequest(m_detectUrl.c_str());
 }
 
 int CDetectFace::_sendRequest(const char * request)
@@ -105,10 +111,8 @@ int CDetectFace::_sendRequest(const char * request)
 	//char *sendbuf = "GET /v2/group/create?api_key=c499b2943a96babe258e8d4ed8098061&api_secret=hHbxdSmNwgvCwWURtjweTRyGR5V_TmWH&tag=created_by_Alice&group_name=AST_Family HTTP/1.1\r\nAccept:*/*\r\nHost:apicn.faceplusplus.com\r\nConnection:Close\r\n\r\n";
 	//char *sendbuf = "GET / HTTP/1.1\r\nAccept:*/*\r\nHost:www.baidu.com\r\nConnection:Close\r\n\r\n";
 	std::string sSendBuf = "GET ";
-	sSendBuf += request;
-	sSendBuf += m_personName;
 	sSendBuf += DetectFaceRequest;
-	sSendBuf += m_groupName;
+	sSendBuf += request;
 	sSendBuf += " HTTP/1.1\r\nAccept:*/*\r\nHost:";
 	sSendBuf += HostPath;
 	sSendBuf += "\r\nConnection:Close\r\n\r\n";

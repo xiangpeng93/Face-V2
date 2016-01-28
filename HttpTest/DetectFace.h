@@ -3,7 +3,7 @@
 class CDetectFace:public CFacePlusPlusInterface
 {
 public:
-	CDetectFace();
+	CDetectFace(std::string detectUrl);
 	~CDetectFace();
 public:
 	int _detectFace();
@@ -11,7 +11,6 @@ private:
 	int _sendRequest(const char * request);
 	int _recvRequest(const char * buffer);
 public:
-	std::string m_personName;
-	std::string m_groupName;
+	std::string m_detectUrl;
 };
 

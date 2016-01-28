@@ -1,4 +1,10 @@
 #define WIN32_LEAN_AND_MEAN
+#include <json/json.h>
+#include <algorithm> // sort
+#include <sstream>
+
+#include <Windows.h>
+#include <iostream>
 
 #include <winsock2.h>
 #include <Ws2tcpip.h>
@@ -8,8 +14,11 @@
 #pragma comment(lib, "Ws2_32.lib")
 
 #define DEFAULT_BUFLEN 512
+
 #include "GroupManger.h"
 #include "PersonManger.h"
+#include "DetectFace.h"
+#include "ParseJson.h"
 
 int __cdecl main() {
 
@@ -17,6 +26,39 @@ int __cdecl main() {
 	// Declare and initialize variables.
 	//----------------------
 	// Initialize Winsock
+
+	int exitCode = 0;
+	Options opts;
+	CParseJson parseJs;
+	try {
+		char* filename[200];
+		filename[1] = "E:\\test.json";
+		int exitCode = parseJs.parseCommandLine(2, (const char **)filename, &opts);
+		if (exitCode != 0) {
+			printf("Failed to parse command-line.");
+			return exitCode;
+		}
+		printf(opts.path.c_str());
+	}
+	catch (const std::exception& e) {
+		printf("Unhandled exception:\n%s\n", e.what());
+		return 1;
+	}
+	std::string input = parseJs.readInputTestFile("E:\\test.json");//opts.path.c_str());
+	if (input.empty()) {
+		printf("Failed to read input or empty input: %s\n", opts.path.c_str());
+		return 3;
+	}
+
+	Json::Value root;
+	exitCode = parseJs.parseAndSaveValueTree(
+		input, "test", "input",
+		opts.features, opts.parseOnly, &root);
+	if (exitCode || opts.parseOnly) {
+		return exitCode;
+	}
+
+
 	int iResult = 0;
 	WSADATA wsaData;
 	iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -32,6 +74,10 @@ int __cdecl main() {
 	person._createPerson();
 	system("pause");
 	person._deletePerson();
+
+	CDetectFace face("http://img5.duitang.com/uploads/item/201501/13/20150113131306_XUzEV.thumb.700_0.jpeg&attribute=glass,pose,gender,age,race,smiling");
+	face._detectFace();
+	system("pause");
 	//char *sendbuf = "GET / HTTP/1.1\r\nAccept:*/*\r\nHost:astmakerspace.org.cn\r\nConnection:Close\r\n\r\n";
 	//char recvbuf[DEFAULT_BUFLEN];
 	//int recvbuflen = DEFAULT_BUFLEN;
