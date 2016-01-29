@@ -14,6 +14,9 @@ class CFacePlusPlusInterface
 {
 public:
 public:
+	virtual int doAction_1() = 0;
+	virtual int doAction_2() = 0;
+
 	virtual int _sendRequest(const char * request) = 0;
 	virtual int _recvRequest(const char * buffer) = 0;
 public:

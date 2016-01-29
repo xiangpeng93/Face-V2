@@ -27,36 +27,36 @@ int __cdecl main() {
 	//----------------------
 	// Initialize Winsock
 
-	int exitCode = 0;
-	Options opts;
-	CParseJson parseJs;
-	try {
-		char* filename[200];
-		filename[1] = "E:\\test.json";
-		int exitCode = parseJs.parseCommandLine(2, (const char **)filename, &opts);
-		if (exitCode != 0) {
-			printf("Failed to parse command-line.");
-			return exitCode;
-		}
-		printf(opts.path.c_str());
-	}
-	catch (const std::exception& e) {
-		printf("Unhandled exception:\n%s\n", e.what());
-		return 1;
-	}
-	std::string input = parseJs.readInputTestFile("E:\\test.json");//opts.path.c_str());
-	if (input.empty()) {
-		printf("Failed to read input or empty input: %s\n", opts.path.c_str());
-		return 3;
-	}
+	//int exitCode = 0;
+	//Options opts;
+	//CParseJson parseJs;
+	//try {
+	//	char* filename[200];
+	//	filename[1] = "E:\\test.json";
+	//	int exitCode = parseJs.parseCommandLine(2, (const char **)filename, &opts);
+	//	if (exitCode != 0) {
+	//		printf("Failed to parse command-line.");
+	//		return exitCode;
+	//	}
+	//	printf(opts.path.c_str());
+	//}
+	//catch (const std::exception& e) {
+	//	printf("Unhandled exception:\n%s\n", e.what());
+	//	return 1;
+	//}
+	//std::string input = parseJs.readInputTestFile("E:\\test.json");//opts.path.c_str());
+	//if (input.empty()) {
+	//	printf("Failed to read input or empty input: %s\n", opts.path.c_str());
+	//	return 3;
+	//}
 
-	Json::Value root;
-	exitCode = parseJs.parseAndSaveValueTree(
-		input, "test", "input",
-		opts.features, opts.parseOnly, &root);
-	if (exitCode || opts.parseOnly) {
-		return exitCode;
-	}
+	//Json::Value root;
+	//exitCode = parseJs.parseAndSaveValueTree(
+	//	input, "test", "input",
+	//	opts.features, opts.parseOnly, &root);
+	//if (exitCode || opts.parseOnly) {
+	//	return exitCode;
+	//}
 
 
 	int iResult = 0;
