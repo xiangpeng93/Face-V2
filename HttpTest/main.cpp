@@ -19,6 +19,8 @@
 #include "PersonManger.h"
 #include "DetectFace.h"
 #include "ParseJson.h"
+#include "Train.h"
+#include "Recognize.h"
 
 int __cdecl main() {
 
@@ -69,15 +71,125 @@ int __cdecl main() {
 
 	CGroupManger create("Test1");
 	create._createGroup();
-	system("pause");
-	CPersonManger person("test1", "Test1");
-	person._createPerson();
-	system("pause");
-	person._deletePerson();
-
-	CDetectFace face("http://img5.duitang.com/uploads/item/201501/13/20150113131306_XUzEV.thumb.700_0.jpeg&attribute=glass,pose,gender,age,race,smiling");
+	
+	CDetectFace face("");
+	face.setDetectUrl("http://b83.photo.store.qq.com/psb?/V12iVgOg4KFP1E/AmIY1pGrj0xPIPdwwq*YfalIPD*JBVmx5cGNpuSdkOg!/b/dFMAAAAAAAAA&bo=gAJVAwAAAAAFAPc!&rf=viewer_4");
 	face._detectFace();
+	std::string destFaceId1 = face._getFaceId();
+
+	std::cout << std::endl << destFaceId1.c_str() << std::endl;
+
 	system("pause");
+	//system("pause");
+	CPersonManger person("test1", "Test1");
+	person._createPerson("test1");
+	person._createPerson("test2");
+	person._createPerson("test3");
+	person._createPerson("test4");
+
+	if (1)
+	{
+		//system("pause");
+	loop1:
+		CDetectFace face("http://img5.duitang.com/uploads/item/201501/13/20150113131306_XUzEV.thumb.700_0.jpeg");
+		face._detectFace();
+		std::string faceID = face._getFaceId();
+		std::cout << std::endl << faceID.c_str() << std::endl;
+		if (faceID.empty())
+		{
+			goto loop1;
+		}
+		//system("pause");
+		person._addFace("test1", faceID);
+	}
+
+	if (1)
+	{
+		//system("pause");
+		loop2:
+		CDetectFace face("http://www.nihaotw.com/ylxw/201601/W020160113386515150408.jpg");
+		face._detectFace();
+		std::string faceID = face._getFaceId();
+		std::cout << std::endl << faceID.c_str() << std::endl;
+		if (faceID.empty())
+		{
+			goto loop2;
+		}
+		//system("pause");
+		person._addFace("test2", faceID);
+	}
+
+	if (1)
+	{
+		//system("pause");
+	loop3:
+		CDetectFace face("http://b.hiphotos.baidu.com/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=5fbbaf53bf389b502cf2e800e45c8eb8/ac4bd11373f0820233c524724dfbfbedab641b23.jpg");
+		face._detectFace();
+		std::string faceID = face._getFaceId();
+		std::cout << std::endl << faceID.c_str() << std::endl;
+
+		if (faceID.empty())
+		{
+			goto loop3;
+		}
+		//system("pause");
+		person._addFace("test3", faceID);
+	}
+	if (1)
+	{
+		//system("pause");
+		loop4:
+		CDetectFace face("http://g.hiphotos.baidu.com/baike/c0%3Dbaike272%2C5%2C5%2C272%2C90/sign=fb5b442d57da81cb5aeb8b9f330fbb73/4afbfbedab64034f2ec56edfa9c379310b551dda.jpg");
+		face._detectFace();
+		std::string faceID = face._getFaceId();
+		if (faceID.empty())
+		{
+			goto loop4;
+		}
+		std::cout << std::endl << faceID.c_str() << std::endl;
+		//system("pause");
+		person._addFace("test4", faceID);
+	}
+
+	//system("pause");
+	CTrain train;
+	//train._trainVerify("test1");
+	train._trainIdentify("Test1");
+	//system("pause");
+	CRecognize recg;
+	loop5:
+	face.setDetectUrl("http://b352.photo.store.qq.com/psb?/V12iVgOg3whx7U/CJZ4xsusF1aJYP2qJbaiyu8cnUzBCvhdZ9KwZrD*014!/b/dGABAAAAAAAA&bo=lQHQAgAAAAAFB2I!&rf=viewer_4");
+	face._detectFace();
+	std::string destFaceId = face._getFaceId();
+	if (destFaceId.empty())
+	{
+		goto loop5;
+	}
+	std::cout << std::endl << destFaceId.c_str() << std::endl;
+	train._trainVerify("test2");
+	recg._verify(destFaceId, "test2");
+
+	//http://b352.photo.store.qq.com/psb?/V12iVgOg3whx7U/CJZ4xsusF1aJYP2qJbaiyu8cnUzBCvhdZ9KwZrD*014!/b/dGABAAAAAAAA&bo=lQHQAgAAAAAFB2I!&rf=viewer_4
+
+
+	system("pause");
+	//recg._verify(destFaceId, person.m_personName);
+	recg._idefntify("http://a.hiphotos.baidu.com/image/pic/item/78310a55b319ebc4df65cc478726cffc1f1716ca.jpg", "Test1");
+	system("pause");
+
+	//recg._verify(destFaceId, person.m_personName);
+	recg._idefntify("http://img2.zjolcdn.com/pic/0/17/34/45/17344526_953953.jpg", "Test1");
+	system("pause");
+	//system("pause");
+	//person._removeFace(faceID);
+
+	
+
+	system("pause");
+	person._deletePerson("test1");
+	person._deletePerson("test2");
+	person._deletePerson("test3");
+	person._deletePerson("test4");
 	//char *sendbuf = "GET / HTTP/1.1\r\nAccept:*/*\r\nHost:astmakerspace.org.cn\r\nConnection:Close\r\n\r\n";
 	//char recvbuf[DEFAULT_BUFLEN];
 	//int recvbuflen = DEFAULT_BUFLEN;

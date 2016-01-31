@@ -10,6 +10,9 @@
 
 #define HostPath  "apicn.faceplusplus.com"
 
+#define MY_API_SECRET "hHbxdSmNwgvCwWURtjweTRyGR5V_TmWH"
+#define MY_API_KEY "c499b2943a96babe258e8d4ed8098061"
+
 class CFacePlusPlusInterface
 {
 public:

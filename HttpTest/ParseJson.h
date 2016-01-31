@@ -22,7 +22,7 @@ class CParseJson
 public:
 	CParseJson();
 	~CParseJson();
-public:
+private:
 	std::string readInputTestFile(const char* path); 
 
 	std::string useStyledWriter(
@@ -46,5 +46,9 @@ public:
 		const Json::Features& features,
 		bool parseOnly,
 		Json::Value* root);
+public:
+	std::string CParseJson::parseString(const std::string& input,
+		Json::Value* root,
+		std::string type);
 };
 

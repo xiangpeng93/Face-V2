@@ -76,6 +76,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParseJson.cpp" />
     <ClCompile Include="PersonManger.cpp" />
+    <ClCompile Include="Recognize.cpp" />
+    <ClCompile Include="Train.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DetectFace.h" />
@@ -83,6 +85,8 @@
     <ClInclude Include="FacePlusPlusInterface.h" />
     <ClInclude Include="ParseJson.h" />
     <ClInclude Include="PersonManger.h" />
+    <ClInclude Include="Recognize.h" />
+    <ClInclude Include="Train.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -129,3 +129,19 @@ int CParseJson::parseAndSaveValueTree(const std::string& input,
 	std::string upload_id = (*root)["face"][0]["face_id"].asString();  // 访问节点，upload_id = "UP000000" 
 	return 0;
 }
+
+std::string CParseJson::parseString(const std::string& input,
+	Json::Value* root,
+	std::string type)
+{
+	Json::Features features;
+	Json::Reader reader(features);
+	bool parsingSuccessful = reader.parse(input, *root);
+	if (!root) {
+		printf("Failed to parse file: \n%s\n",
+			reader.getFormattedErrorMessages().c_str());
+		return "";
+	}
+	
+	return (*root)["face"][0]["face_id"].asString();  // 访问节点，upload_id = "UP000000" 
+}

@@ -4,6 +4,8 @@
 #include <algorithm> // sort
 #include <sstream>
 #include <stdio.h>
+
+#include "ParseJson.h"
 /*Detect Face*/
 //http ://apicn.faceplusplus.com/v2/detection/detect?api_key=c499b2943a96babe258e8d4ed8098061&api_secret=hHbxdSmNwgvCwWURtjweTRyGR5V_TmWH&url=http://img5.duitang.com/uploads/item/201501/13/20150113131306_XUzEV.thumb.700_0.jpeg&attribute=glass,pose,gender,age,race,smiling&async=false
 
@@ -90,7 +92,7 @@ std::string DetectFaceRequest = "/v2/detection/detect?api_key=c499b2943a96babe25
 
 CDetectFace::CDetectFace(std::string detectUrl)
 {
-	m_detectUrl = detectUrl;
+	setDetectUrl(detectUrl);
 }
 
 
@@ -102,6 +104,15 @@ CDetectFace::~CDetectFace()
 int CDetectFace::_detectFace()
 {
 	return _sendRequest(m_detectUrl.c_str());
+}
+
+std::string CDetectFace::_getFaceId(){
+	if (!m_revMessage.empty())
+	{
+		CParseJson parseJs; Json::Value root;
+		return parseJs.parseString(m_revMessage, &root,"face");
+	}
+	else return "";
 }
 
 int CDetectFace::_sendRequest(const char * request)
@@ -160,16 +171,16 @@ int CDetectFace::_sendRequest(const char * request)
 	}
 
 	printf("Bytes Sent: %ld\n", iResult);
-	Sleep(500);
+	Sleep(1000);
 	// shutdown the connection since no more data will be sent
-	iResult = shutdown(m_socket, SD_SEND);
+	//iResult = shutdown(m_socket, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
 		printf("shutdown failed: %d\n", WSAGetLastError());
 		closesocket(m_socket);
 		WSACleanup();
 		return 1;
 	}
-
+	Sleep(2000);
 	_recvRequest("");
 	return 0;
 }
@@ -181,13 +192,12 @@ int CDetectFace::_recvRequest(const char * request)
 
 	char recvbuf[DEFAULT_BUFLEN];
 	int recvbuflen = DEFAULT_BUFLEN;
-	std::fstream out("test.html");
 
 	//system("pause");
 	// Receive until the peer closes the connection
 	std::string message;
 	do {
-		memset(recvbuf, 0, recvbuflen);
+		memset(recvbuf, '\0', recvbuflen);
 		iResult = recv(m_socket, recvbuf, recvbuflen, 0);
 		if (iResult > 0)
 		{
@@ -203,9 +213,17 @@ int CDetectFace::_recvRequest(const char * request)
 	} while (iResult > 0);
 
 	message.find("\r\n\r\n");
+	
 	message.erase(0, message.find("\r\n\r\n") + strlen("\r\n\r\n"));
-	out << message.c_str();
-
+	m_revMessage = message;
+	int state = -1;
+	do 
+	{
+		state = m_revMessage.find_first_of(("лл"));
+		if (state != -1)
+			m_revMessage.erase(state, 1);
+	} while (state != -1);
+	
 	closesocket(m_socket);
 	return 0;
 }
