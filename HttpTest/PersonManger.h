@@ -20,9 +20,7 @@ public:
 	int _createPerson(std::string personName);
 	int _deletePerson();
 	int _deletePerson(std::string personName);
-private:
-	int _sendRequest(const char * request);
-	int _recvRequest(const char * buffer);
+
 public:
 	std::string m_personName;
 	std::string m_groupName;

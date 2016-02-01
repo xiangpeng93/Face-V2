@@ -69,6 +69,12 @@ int __cdecl main() {
 		return 1;
 	}
 
+	std::fstream img;
+	std::string imgFile;
+	img.open("C:\\Users\\dell\\Desktop\\Face++\\LH1.jpg");
+	img >> imgFile;
+	bool isOpen = img.is_open();
+	system("pause");
 	CGroupManger create("Test1");
 	create._createGroup();
 	

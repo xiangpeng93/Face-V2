@@ -10,10 +10,8 @@ public:
 public:
 	int _verify(std::string faceId,std::string personName);
 	int _idefntify(std::string url, std::string groupName);
-private:
-	int _sendRequest(const char * request);
-	int _recvRequest(const char * buffer);
+
 public:
-	std::string m_recvMessgae;
+
 };
 

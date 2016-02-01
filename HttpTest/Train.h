@@ -10,10 +10,6 @@ public:
 	virtual int doAction_2(){ return 0; };
 	int _trainVerify(std::string personName);
 	int _trainIdentify(std::string guropName);
-private:
-	int _sendRequest(const char * request);
-	int _recvRequest(const char * buffer);
-public:
-	std::string m_recvMessgae;
+
 };
 
