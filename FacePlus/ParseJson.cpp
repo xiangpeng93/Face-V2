@@ -142,7 +142,7 @@ std::string CParseJson::parseString(const std::string& input,
 			reader.getFormattedErrorMessages().c_str());
 		return "";
 	}
-
+	
 	return (*root)["face"][0]["face_id"].asString();  // ·ÃÎÊ½Úµã£¬upload_id = "UP000000" 
 }
 

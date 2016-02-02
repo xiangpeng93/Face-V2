@@ -15,8 +15,7 @@
 
 class CFacePlusPlusInterface
 {
-public:
-public:
+protected:
 	virtual int doAction_1() = 0;
 	virtual int doAction_2() = 0;
 
@@ -71,7 +70,7 @@ public:
 		}
 
 		printf("Bytes Sent: %ld\n", iResult);
-		//Sleep(1000);
+		//Sleep(500);
 		// shutdown the connection since no more data will be sent
 		//iResult = shutdown(m_socket, SD_SEND);
 		if (iResult == SOCKET_ERROR) {
@@ -81,7 +80,7 @@ public:
 			return 1;
 		}
 
-		_recvRequest("");
+		iResult = _recvRequest("");
 		return iResult;
 	};
 	virtual int _recvRequest(const char * buffer){

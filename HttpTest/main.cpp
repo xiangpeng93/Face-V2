@@ -74,8 +74,8 @@ int __cdecl main() {
 	img.open("C:\\Users\\dell\\Desktop\\Face++\\LH1.jpg");
 	img >> imgFile;
 	bool isOpen = img.is_open();
-	system("pause");
-	CGroupManger create("Test1");
+	//system("pause");
+	CGroupManger create("Test2");
 	create._createGroup();
 	
 	CDetectFace face("");
@@ -85,9 +85,9 @@ int __cdecl main() {
 
 	std::cout << std::endl << destFaceId1.c_str() << std::endl;
 
-	system("pause");
 	//system("pause");
-	CPersonManger person("test1", "Test1");
+	//system("pause");
+	CPersonManger person("test1", "Test2");
 	person._createPerson("test1");
 	person._createPerson("test2");
 	person._createPerson("test3");
@@ -159,8 +159,8 @@ int __cdecl main() {
 
 	//system("pause");
 	CTrain train;
-	//train._trainVerify("test1");
-	train._trainIdentify("Test1");
+	train._trainVerify("test1");
+	train._trainIdentify("Test2");
 	//system("pause");
 	CRecognize recg;
 	loop5:
@@ -173,18 +173,37 @@ int __cdecl main() {
 	}
 	std::cout << std::endl << destFaceId.c_str() << std::endl;
 	train._trainVerify("test2");
+	system("pause");
 	recg._verify(destFaceId, "test2");
+	std::cout<<recg._getResultRecg(GETVERIFYRESULT) << std::endl;
+	//recg._verify(destFaceId, person.m_personName);
+	
+
 
 	//http://b352.photo.store.qq.com/psb?/V12iVgOg3whx7U/CJZ4xsusF1aJYP2qJbaiyu8cnUzBCvhdZ9KwZrD*014!/b/dGABAAAAAAAA&bo=lQHQAgAAAAAFB2I!&rf=viewer_4
-
+	
 
 	system("pause");
-	//recg._verify(destFaceId, person.m_personName);
-	recg._idefntify("http://a.hiphotos.baidu.com/image/pic/item/78310a55b319ebc4df65cc478726cffc1f1716ca.jpg", "Test1");
+	
+	recg._identify("http://img5.duitang.com/uploads/item/201501/13/20150113131306_XUzEV.thumb.700_0.jpeg"/*http://a.hiphotos.baidu.com/image/pic/item/78310a55b319ebc4df65cc478726cffc1f1716ca.jpg*/, "Test2");
 	system("pause");
+	char result[1024] = {0};
+	memset(result, 0, sizeof(result));
+	std::cout << recg._getResultRecg(GETIDENTIFYRESULT) << std::endl;
+	std::cout << recg._getResultRecg(GETFACEID) << std::endl;
+
+	recg._verify(recg._getResultRecg(GETFACEID), recg._getResultRecg(GETIDENTIFYRESULT));
+	std::cout << recg._getResultRecg(GETVERIFYRESULT) << std::endl;
+	system("pause");
+	memset(result, 0, sizeof(result));
 
 	//recg._verify(destFaceId, person.m_personName);
-	recg._idefntify("http://img2.zjolcdn.com/pic/0/17/34/45/17344526_953953.jpg", "Test1");
+	recg._identify("http://www.nihaotw.com/ylxw/201601/W020160113386515150408.jpg", "Test2");
+	std::cout << recg._getResultRecg(GETIDENTIFYRESULT) << std::endl;
+	std::cout << recg._getResultRecg(GETFACEID) << std::endl;
+
+	recg._verify(recg._getResultRecg(GETFACEID), recg._getResultRecg(GETIDENTIFYRESULT));
+	std::cout << recg._getResultRecg(GETVERIFYRESULT) << std::endl;
 	system("pause");
 	//system("pause");
 	//person._removeFace(faceID);

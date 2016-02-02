@@ -1,4 +1,5 @@
 #include "Recognize.h"
+#include "ParseJson.h"
 
 CRecognize::CRecognize()
 {
@@ -37,7 +38,7 @@ int CRecognize::_identify(std::string url, std::string groupName){
 	TrainIdentify += url;
 	TrainIdentify += "&api_secret=";
 	TrainIdentify += MY_API_SECRET;
-
+	
 	TrainIdentify += "&api_key=";
 	TrainIdentify += MY_API_KEY;
 	TrainIdentify += "&group_name=";
@@ -48,10 +49,9 @@ int CRecognize::_identify(std::string url, std::string groupName){
 }
 
 
-
 char* CRecognize::_getResultRecg(int cmd)
 {
-	static char sResult[1024] = {0};
+	static char sResult[1024] = { 0 };
 	memset(sResult, 0, sizeof(sResult));
 	if (!m_recvMessage.empty())
 	{
@@ -65,9 +65,6 @@ char* CRecognize::_getResultRecg(int cmd)
 			break;
 		case GETIDENTIFYRESULT:
 			strcpy(sResult, (value)["face"][0]["candidate"][0]["person_name"].asString().c_str());
-			break;
-		case GETFACEID:
-			strcpy(sResult, (value)["face"][0]["face_id"].asString().c_str());
 			break;
 		default:
 			break;
