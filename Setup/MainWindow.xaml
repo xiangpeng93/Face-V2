@@ -1,0 +1,137 @@
+﻿<Window x:Class="Setup.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="452.93" Width="655.86">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBox Grid.Row="1" Name="message_box" Text="output...."  ToolTip="Output message.."></TextBox>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="0">
+                    <TextBlock Grid.Row="1" Text="Input Value:        " HorizontalAlignment="Left" VerticalAlignment="Center" ></TextBlock>
+                    <StackPanel Height="auto" VerticalAlignment="Center">
+                        <TextBlock Text="Please input person name ..." Margin="5,0,0,0"  VerticalAlignment="Center" HorizontalAlignment="Stretch"></TextBlock>
+
+                        <TextBox ToolTip="Please input person name ..." Name="value_person_box" Margin="5,0,0,0" Text="" VerticalAlignment="Center" HorizontalAlignment="Stretch"></TextBox>
+                        <TextBlock Text="Please input group name ..." Margin="5,0,0,0"  VerticalAlignment="Center" HorizontalAlignment="Stretch"></TextBlock>
+
+                        <TextBox ToolTip="Please input group name ..." Name="value_group_box" Margin="5,0,0,0" Text=""  VerticalAlignment="Center" HorizontalAlignment="Stretch"></TextBox>
+                        <TextBlock Text="Please input faceid  ..." Margin="5,0,0,0"  VerticalAlignment="Center" HorizontalAlignment="Stretch"></TextBlock>
+                        <TextBox ToolTip="Please input faceid ..." Name="value_faceId_box" Margin="5,0,0,0" Text=""  VerticalAlignment="Center" HorizontalAlignment="Stretch"></TextBox>
+                    </StackPanel>
+
+                </DockPanel>
+                <DockPanel Grid.Row="1">
+                    <TextBlock Grid.Row="2" Text="Input url:            " HorizontalAlignment="Left" VerticalAlignment="Center" ></TextBlock>
+
+                    <TextBox Name="url_box" Margin="10,0,0,0" Text="" ToolTip="Please input.." VerticalAlignment="Center" HorizontalAlignment="Stretch"></TextBox>
+                </DockPanel>
+            </Grid>
+
+            <StackPanel Grid.Column="1">
+                <TabControl x:Name="tabContro_face" Margin="5">
+
+                    <TabControl.Template>
+                        <ControlTemplate TargetType="{x:Type TabControl}">
+                            <Grid ClipToBounds="True" KeyboardNavigation.TabNavigation="Local" SnapsToDevicePixels="True">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Name="ColumnDefinition0" Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Name="RowDefinition0" Height="*"/>
+                                    <RowDefinition Name="RowDefinition1" Height="*"/>
+                                </Grid.RowDefinitions>
+                                <DockPanel Name="HeaderPanel"  Grid.Column="0"
+              Grid.Row="0"
+              Margin="2,2,2,0"
+              Panel.ZIndex="1"
+              IsItemsHost="True"
+              KeyboardNavigation.TabIndex="1"/>
+                                <Border
+              Name="ContentPanel"
+              Grid.Column="0"
+              Grid.Row="1"
+              Background="{TemplateBinding Panel.Background}"
+              BorderBrush="{TemplateBinding Border.BorderBrush}"
+              BorderThickness="{TemplateBinding Border.BorderThickness}"
+              KeyboardNavigation.DirectionalNavigation="Contained"
+              KeyboardNavigation.TabIndex="2"
+              KeyboardNavigation.TabNavigation="Local">
+                                    <ContentPresenter
+                 Name="PART_SelectedContentHost"
+                 Margin="{TemplateBinding Control.Padding}"
+                 Content="{TemplateBinding TabControl.SelectedContent}"
+                 ContentSource="SelectedContent"
+                 ContentStringFormat="{TemplateBinding TabControl.SelectedContentStringFormat}"
+                 ContentTemplate="{TemplateBinding TabControl.SelectedContentTemplate}"
+                 SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"/>
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </TabControl.Template>
+
+                    <TabItem x:Name="GroupManger" Header="Group" HorizontalAlignment="Left">
+                        <StackPanel>
+                            <TextBlock Text="---GroupManger---" VerticalAlignment="Center" Height="30" HorizontalAlignment="Center"/>
+                            <Button Click="AddGroup_Click"  Margin="0,5" x:Name="AddGroup" Content="AddGroup"/>
+                            <Button Click="DeleteGroup_Click" Margin="0,5" x:Name="DeleteGroup" Content="DeleteGroup"/>
+
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem x:Name="Person" Header="Person"  HorizontalAlignment="Left" >
+                        <StackPanel>
+                            <TextBlock Text="--Person Manger--" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Button Click="AddPerson_Click" Margin="0,1" x:Name="AddPerson" Content="AddPerson"/>
+                            <Button Click="DeletePerson_Click"  Margin="0,1" x:Name="DeletePerson" Content="DeletePerson"/>
+
+                            <Button Click="AddFace_Click" Margin="0,1" x:Name="AddFace" Content="AddFace"/>
+                            <Button Click="RemoveFace_Click" Margin="0,1" x:Name="RemoveFace" Content="Remove"/>
+                        </StackPanel>
+                    </TabItem>
+                    <TabItem x:Name="Detect" Header="Detect"  HorizontalAlignment="Left">
+                        <StackPanel>
+                            <TextBlock Text="--Detect Manger--" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Button Click="DetectFace_Click"  Margin="0,5" x:Name="DetectFace" Content="DetectFace"/>
+
+                        </StackPanel>
+                    </TabItem>
+
+                    <TabItem x:Name="Recognize" Header="Recognize"  HorizontalAlignment="Left" Height="22" Margin="0,-2,0,-1" VerticalAlignment="Top">
+                        <StackPanel>
+                            <TextBlock Text="--Person Manger--" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Button Click="RecoFace_Click"  Margin="0,5" x:Name="RecoFace" Content="RecoFace"/>
+                        </StackPanel>
+                    </TabItem>
+
+                    <TabItem x:Name="Train_manger" Header="Train"  HorizontalAlignment="Left">
+                        <StackPanel>
+                            <TextBlock Text="--Train Manger--" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Button Click="Train_Click"  Margin="0,5" x:Name="Train_person" Content="Train_person"/>
+                            <Button Click="Train_group_Click"  Margin="0,5" x:Name="Train_group" Content="Train_group"/>
+
+                        </StackPanel>
+                    </TabItem>
+
+                </TabControl>
+                <DockPanel Margin="10">
+                    <TextBlock Text="Reslut:"></TextBlock>
+                    <TextBox Margin="5,0,0,0" Name="Reslut"></TextBox>
+                </DockPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

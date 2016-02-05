@@ -23,7 +23,7 @@ public:
 	CParseJson();
 	~CParseJson();
 private:
-	std::string readInputTestFile(const char* path); 
+	std::string readInputTestFile(const char* path);
 
 	std::string useStyledWriter(
 		Json::Value const& root);

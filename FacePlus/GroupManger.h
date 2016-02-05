@@ -1,6 +1,6 @@
 #pragma once
 #include "FacePlusPlusInterface.h"
-class CGroupManger : CFacePlusPlusInterface
+class CGroupManger :public CFacePlusPlusInterface
 {
 public:
 	CGroupManger(std::string groupName)

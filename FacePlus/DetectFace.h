@@ -1,6 +1,6 @@
 #pragma once
 #include "FacePlusPlusInterface.h"
-class CDetectFace :public CFacePlusPlusInterface
+class CDetectFace:public CFacePlusPlusInterface
 {
 public:
 	CDetectFace();

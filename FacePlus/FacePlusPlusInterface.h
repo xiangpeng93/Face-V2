@@ -15,7 +15,8 @@
 
 class CFacePlusPlusInterface
 {
-protected:
+public:
+public:
 	virtual int doAction_1() = 0;
 	virtual int doAction_2() = 0;
 
@@ -26,6 +27,7 @@ protected:
 		sSendBuf += " HTTP/1.1\r\nAccept:*/*\r\nHost:";
 		sSendBuf += HostPath;
 		sSendBuf += "\r\nConnection:Close\r\n\r\n";
+		OutputDebugString(sSendBuf.c_str());
 
 		//----------------------
 		// Create a SOCKET for connecting to server
@@ -70,7 +72,7 @@ protected:
 		}
 
 		printf("Bytes Sent: %ld\n", iResult);
-		//Sleep(500);
+		//Sleep(1000);
 		// shutdown the connection since no more data will be sent
 		//iResult = shutdown(m_socket, SD_SEND);
 		if (iResult == SOCKET_ERROR) {
@@ -79,8 +81,9 @@ protected:
 			WSACleanup();
 			return 1;
 		}
+		OutputDebugString("Send Success");
 
-		iResult = _recvRequest("");
+		_recvRequest("");
 		return iResult;
 	};
 	virtual int _recvRequest(const char * buffer){
@@ -116,6 +119,7 @@ protected:
 				m_recvMessage.erase(state, 1);
 		} while (state != -1);
 		std::cout << m_recvMessage.c_str() << std::endl;
+		OutputDebugString(m_recvMessage.c_str());
 
 		closesocket(m_socket);
 		return iResult;
